@@ -1,55 +1,92 @@
-// Import Express.js
 const express = require("express");
-const db = require("./db/db.json");
+const fs = require("fs");
 const path = require("path");
+const db = require("./db/db.json");
 // Initialize an instance of Express.js
 const app = express();
 
 // Specify on which port the Express.js server will run
-const PORT = 3002;
+const PORT = 3001;
 
-// Sets up the Express app to handle data parsing
+// Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(express.urlencoded({ extended: true }));
+// return the data in json format
 app.use(express.json());
 
+// return in html format
 app.use(express.static("public"));
 
-// Create Express.js routes for default '/', '/Notes'
+// GET REQUESTS
+// Create Express.js routes for default '/', '/Notes, and '/api/notes'
 app.get("/", (req, res) => {
-  //console.log(__dirname);
-  //console.log(path.join(__dirname, "public/first.html"));
   res.sendFile(path.join(__dirname, "public/index.html"));
-  // Show the user agent information in the terminal
-  // console.info(req.rawHeaders);
 
-  // Log our request to the terminal
   // console.info(`${req.method} request received`);
 });
 
 app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "public/notes.html"));
-  // Show the user agent information in the terminal
-  // console.info(req.rawHeaders);
 
-  // Log our request to the terminal
   // console.info(`${req.method} request received`);
 });
 
-// path to access notes saved by user
 app.get("/api/notes", (req, res) => {
-  res.json(db); // Maybe need to change path /api
+  res.json(db);
 });
 
-// POST request
+// POST REQUESTS
 app.post("/api/notes", (req, res) => {
-  // Let the client know that their POST request was received
-  res.json(`${req.method} request received`);
+  // Log that a POST request was received
+  console.info(`${req.method} request received to add a note`);
+  console.log(req.body);
 
-  // Show the user agent information in the terminal
-  // console.info(req.rawHeaders);
+  // assignment for the items in req.body ->  body = payload
+  // line below same as: const title = req.body.title; const text = req.body.text;
+  const { title, text } = req.body;
 
-  // Log our request to the terminal
-  // console.info(`${req.method} request received`);
+  if (title && text) {
+    // Variable for the object we will save
+    const newNote = {
+      title,
+      text,
+    };
+
+    // Obtain existing notes
+    fs.readFile("./db/db.json", "utf8", (err, data) => {
+      console.log({ data });
+      if (err) {
+        console.error(err);
+      } else {
+        // Convert string into JSON object
+        const parsedNotes = JSON.parse(data);
+
+        // Add a new review
+        parsedNotes.push(newNote);
+
+        // Write updated notes back to the file
+        // null, 2 -> null means we don't want to edit any of the existing data, 2 means we want to create 2 spaces between our values
+        fs.writeFile(
+          "./db/db.json",
+          JSON.stringify(parsedNotes, null, 2),
+          (writeErr) =>
+            writeErr
+              ? console.error(writeErr)
+              : console.info("Successfully updated notes!")
+        );
+      }
+    });
+
+    // The browser needs to receive a confirmation, because if not the browser will wait and will hung up
+    const response = {
+      status: "success",
+      body: newNote,
+    };
+
+    console.log(response);
+    res.status(201).json(response);
+  } else {
+    res.status(500).json("Error in posting note");
+  }
 });
 
 // listen() method is responsible for listening for incoming connections on the specified port
