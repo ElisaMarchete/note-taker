@@ -1,7 +1,6 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
-const db = require("./db/db.json");
 // Initialize an instance of Express.js
 const app = express();
 
@@ -31,7 +30,19 @@ app.get("/notes", (req, res) => {
 });
 
 app.get("/api/notes", (req, res) => {
-  res.json(db);
+  fs.readFile("./db/db.json", "utf8", (err, data) => {
+    // console.log({ data });
+    if (err) {
+      console.error(err);
+    } else {
+      // Convert string into JSON object
+      const parsedNotes = JSON.parse(data);
+
+      // Add a new review
+
+      return res.json(parsedNotes);
+    }
+  });
 });
 
 // POST REQUESTS
@@ -53,7 +64,6 @@ app.post("/api/notes", (req, res) => {
 
     // Obtain existing notes
     fs.readFile("./db/db.json", "utf8", (err, data) => {
-      console.log({ data });
       if (err) {
         console.error(err);
       } else {
@@ -64,26 +74,29 @@ app.post("/api/notes", (req, res) => {
         parsedNotes.push(newNote);
 
         // Write updated notes back to the file
-        // null, 2 -> null means we don't want to edit any of the existing data, 2 means we want to create 2 spaces between our values
         fs.writeFile(
           "./db/db.json",
           JSON.stringify(parsedNotes, null, 2),
-          (writeErr) =>
-            writeErr
-              ? console.error(writeErr)
-              : console.info("Successfully updated notes!")
+          (writeErr) => {
+            if (writeErr) {
+              console.error(writeErr);
+            } else {
+              console.info("Successfully updated notes!");
+
+              const response = {
+                status: "success",
+                body: newNote,
+              };
+
+              console.log(response);
+              return res.status(201).json(response);
+            }
+          }
         );
       }
     });
 
     // The browser needs to receive a confirmation, because if not the browser will wait and will hung up
-    const response = {
-      status: "success",
-      body: newNote,
-    };
-
-    console.log(response);
-    res.status(201).json(response);
   } else {
     res.status(500).json("Error in posting note");
   }
