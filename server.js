@@ -1,6 +1,8 @@
 const express = require("express");
 const fs = require("fs");
 const path = require("path");
+// Helper method for generating unique ids
+const uuid = require("./helpers/uuid");
 // Initialize an instance of Express.js
 const app = express();
 
@@ -60,6 +62,7 @@ app.post("/api/notes", (req, res) => {
     const newNote = {
       title,
       text,
+      id: uuid(),
     };
 
     // Obtain existing notes
