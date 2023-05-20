@@ -14,7 +14,7 @@ Note Taker is a simple application that can be used to write, save, and delete n
 - Delete unwanted notes.
 
 ## Usage
-The Note Taker application is already deployed and accessible online. You can access it by visiting [Note Taker App](https://XXXXXXXXXXXXXXXXXXXXX).
+The Note Taker application is already deployed and accessible online. You can access it by visiting [Note Taker App](https://polar-everglades-06513.herokuapp.com/).
 
 1. Visit the deployed Note Taker application using the provided URL.
 2. You will be presented with the Note Taker application.
@@ -30,6 +30,6 @@ This project is licensed under the [MIT License](LICENSE).
 ## Screenshot and link for the deployed application
 ![Screenshot of deployed application](./screenshot/doc1.png)
 ![Screenshot of deployed application](./screenshot/doc2.png)
-[Link deployed application](https://XXXXXXXXXXXX)
+[Link deployed application](https://polar-everglades-06513.herokuapp.com/)
 
 
