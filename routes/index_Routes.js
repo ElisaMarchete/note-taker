@@ -1,13 +1,13 @@
-const api = require("express");
+const express = require("express");
 
 // Import modules
-const notesRoutes = require("./api_notes.js");
+const notesRoutes = require("./api_notes");
 
 // Initialize express
 const app = express();
 
 // Use Routes
-app.use("/api/notes", notesRoutes);
+app.use("/notes", notesRoutes);
 
 // Export module
 module.exports = app;

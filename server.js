@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 // const fs = require("fs");
 
 // Initialize an instance of Express.js
@@ -8,7 +9,7 @@ const app = express();
 const routes = require("./routes/index_Routes.js");
 
 // Specify on which port the Express.js server will run
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
 // Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
 app.use(express.urlencoded({ extended: true }));
