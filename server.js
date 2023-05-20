@@ -1,12 +1,11 @@
 const express = require("express");
 const path = require("path");
-// const fs = require("fs");
 
 // Initialize an instance of Express.js
 const app = express();
 
 // Import routes
-const routes = require("./routes/index_Routes.js");
+const routes = require("./routes/index_Routes");
 
 // Specify on which port the Express.js server will run
 const PORT = process.env.PORT || 3001;

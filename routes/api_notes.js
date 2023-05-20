@@ -14,8 +14,7 @@ notes.get("/", (req, res) => {
       // Convert string into JSON object
       const parsedNotes = JSON.parse(data);
 
-      // Add a new review
-
+      // return the data in json format
       return res.json(parsedNotes);
     }
   });
@@ -47,7 +46,7 @@ notes.post("/", (req, res) => {
         // Convert string into JSON object
         const parsedNotes = JSON.parse(data);
 
-        // Add a new review
+        // Add a new review to the array of review objects
         parsedNotes.push(newNote);
 
         // Write updated notes back to the file
@@ -65,7 +64,6 @@ notes.post("/", (req, res) => {
                 body: newNote,
               };
 
-              console.log(response);
               return res.status(201).json(response);
             }
           }
@@ -79,6 +77,7 @@ notes.post("/", (req, res) => {
   }
 });
 
+// DELETE REQUESTS
 notes.delete("/:id", (req, res) => {
   // Log that a POST request was received
   console.info(`${req.method} request received to delete a note`);

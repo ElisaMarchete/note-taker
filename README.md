@@ -28,7 +28,8 @@ The Note Taker application is already deployed and accessible online. You can ac
 This project is licensed under the [MIT License](LICENSE).
 
 ## Screenshot and link for the deployed application
-![Screenshot of deployed application](./assets/Screenshot/screenshot.png)
+![Screenshot of deployed application](./screenshot/doc1.png)
+![Screenshot of deployed application](./screenshot/doc2.png)
 [Link deployed application](https://XXXXXXXXXXXX)
 
 
